@@ -14,11 +14,15 @@ router.get('/list', function(req, res){
 });
 
 //Profile routes
-router.get('/profile', util.ensureAuthenticated, function(req, res){ 
-      console.log('Request Object: ' + req.user);
+router.get('/profile', util.ensureAuthenticated, function(req, res){
+    if(req.user){
       User.findById(req.user, function(err, user) {
           res.send(user);
-      });
+      });   
+    }else{
+        res.send({user: 'User not found!'});
+    }
+
 });
 
 router.put('/profile', util.ensureAuthenticated, function(req, res){
